@@ -8,13 +8,14 @@ _Why did the API go to therapy? Because it had too many unresolved issues_. With
 
 ---
 
-## Features That Actually Help
+## Key Features (Current MVP)
 
-- **Visual Editor:** Click, type, and create endpoints. If you can use a computer, you can build a mock API.
-- **Truly Stateful Mocking:** Create APIs that remember changes from `POST`, `PUT`, and `DELETE` requests. It's like having a real database.
-- **(Coming Soon) Dynamic Data:** Use Faker.js schemas to generate realistic data.
-- **100% Open Source & Self-Hostable:** Deploy it on your own infrastructure. Your data, your rules.
-- **Built with a Modern Stack:** Next.js, TypeScript, PostgreSQL, Prisma, and Tailwind CSS. All the good stuff.
+- **Core Authentication:** Secure user registration, login, and password reset functionality.
+- **Project & Endpoint Management:** Create and manage projects, and define basic API endpoints with static JSON responses.
+- **Visual Interface:** An intuitive UI for managing your mock APIs.
+- **Self-Hostable:** 100% open-source. Deploy it on your own infrastructure.
+- **Built with a Modern Stack:** Next.js, TypeScript, PostgreSQL, Prisma, and Tailwind CSS.
+- **(Coming Soon):** Stateful mocking, dynamic data with Faker.js, team collaboration.
 
 ---
 
@@ -32,54 +33,67 @@ _Why did the API go to therapy? Because it had too many unresolved issues_. With
 
     - First, get the code onto your machine.
 
-    ```bash
-    git clone https://github.com/devo-id/api-forge.git
-    cd api-forge
-    ```
+      ```bash
+      git clone https://github.com/devo-id/api-forge.git
+      cd api-forge
+      ```
 
 2.  **Install Dependencies**
 
     - This installs all the necessary packages for the main application.
 
-    ```bash
-    npm install
-    ```
+      ```bash
+      npm install
+      ```
 
 3.  **Set Up Your Environment Variables**
 
     - This project uses environment variables for keys and secrets. We've included a template to make it easy.
-    - Create your local environment file by copying the example:
 
-    ```bash
-    cp .env.example .env.local
-    ```
+    - **For the Prisma CLI and fallback app settings:** Create a `.env` file by copying the example:
 
-    - Now, open the new `.env.local` file and fill in your secrets. You'll get the database URL in the next step.
+      ```bash
+      cp .env.example .env
+      ```
+
+    - **For your local development server secrets:** Create a `.env.local` file, also by copying the example:
+      ```bash
+      cp .env.example .env.local
+      ```
+    - Now, open **both** your new `.env` and `.env.local` files. You will need to fill in the values.
+
+      - **In `.env`:** Ensure `DATABASE_URL` is set correctly. This is what the Prisma CLI uses.
+      - **In `.env.local`:** Fill in all values (`DATABASE_URL`, `NEXTAUTH_URL`, `NEXTAUTH_SECRET`, `RESEND_API_KEY`). The values here will be used by your Next.js app and will override those in `.env` during development.
 
 4.  **Connect to Your Database**
 
     - Log in to [Supabase](https://supabase.com/) and create a new project.
     - Navigate to **Project Settings > Database**.
     - Under the **Connection string** section, copy the `URI`.
-    - Paste this full URL as the value for `DATABASE_URL` in your `.env.local` file.
+    - Paste this full URL as the value for DATABASE_URL in both your .env and .env.local files.
 
-5.  **Run the Database Migration**
+5.  **Set Up the Resend API Key**
+
+    - To get the `RESEND_API_KEY`, sign up at [Resend](https://resend.com/) and create an API key for free.
+    - Once you have your API key, add it to your `.env.local` file.
+
+6.  **Run the Database Migration**
 
     - This is the magic step. It sets up all the necessary tables in your new database.
 
-    ```bash
-    npx prisma migrate dev
-    ```
+      ```bash
+      npx prisma migrate dev
+      ```
 
-    _This single command smartly updates your database schema and generates the Prisma Client your app needs to talk to it._
+      _This single command smartly updates your database schema and generates the Prisma Client your app needs to talk to it._
 
-6.  **Run the App!**
+7.  **Run the App!**
     - You're all set! Start the development server.
-    ```bash
-    npm run dev
-    ```
+      ```bash
+      npm run dev
+      ```
 
-Your API Forge application should now be running at `http://localhost:3000`. Create an account and start building!
+Your API Forge application should now be running at `http://localhost:3000`. Open it in your browser, create an account, and start building!
 
 ---
 
