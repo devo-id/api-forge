@@ -29,13 +29,12 @@ export default function ProjectDetailClient({
 
   useEffect(() => {
     const fetchProjectDetails = async () => {
-      const res = await fetch("/api/projects", { credentials: "include" });
+      const res = await fetch(`/api/projects/${projectId}/endpoints`, {
+        credentials: "include",
+      });
       if (res.ok) {
-        const projects = await res.json();
-        const currentProject = projects.find(
-          (p: Project) => p.id === projectId
-        );
-        setProject(currentProject || null);
+        const data = await res.json();
+        setProject(data);
       }
       setLoading(false);
     };
@@ -123,6 +122,34 @@ export default function ProjectDetailClient({
             Create Endpoint
           </button>
         </form>
+      </div>
+      <div className="mt-12">
+        <h2 className="text-2xl font-semibold">Existing Endpoints</h2>
+        {project?.endpoints && project.endpoints.length > 0 ? (
+          <ul className="mt-4 space-y-2">
+            {project.endpoints.map((endpoint) => (
+              <li
+                key={endpoint.id}
+                className="border p-3 rounded-md flex justify-between items-center font-mono"
+              >
+                <div className="flex items-center">
+                  <span className="font-bold mr-4">{endpoint.method}</span>
+                  <span>{endpoint.path}</span>
+                </div>
+                <div className="flex space-x-2 ml-auto">
+                  <button className="text-sm bg-gray-200 px-3 py-1 rounded">
+                    View
+                  </button>
+                  <button className="text-sm font-sans bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">
+                    Delete
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="mt-4 text-gray-500">No endpoints created yet.</p>
+        )}
       </div>
     </div>
   );

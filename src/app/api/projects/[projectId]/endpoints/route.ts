@@ -54,3 +54,41 @@ export async function POST(
     return new NextResponse("Internal Server Error", { status: 500 });
   }
 }
+
+export async function GET(
+  request: Request,
+  { params }: { params: { projectId: string } }
+) {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    return new NextResponse("Unauthorized", { status: 401 });
+  }
+
+  const { projectId } = params;
+
+  try {
+    const project = await prisma.project.findFirst({
+      where: {
+        id: projectId,
+        userId: session.user.id,
+      },
+      include: {
+        endpoints: {
+          orderBy: {
+            path: "asc",
+          },
+        },
+      },
+    });
+
+    if (!project) {
+      return new NextResponse("Project not found", { status: 404 });
+    }
+
+    return NextResponse.json(project);
+  } catch (error) {
+    console.error("[PROJECT_GET_ERROR]", error);
+    return new NextResponse("Internal Server Error", { status: 500 });
+  }
+}
