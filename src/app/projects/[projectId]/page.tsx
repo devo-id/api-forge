@@ -1,4 +1,4 @@
-import ProjectDetailClient from "@/app/components/projects/ProjectDetailClient";
+import ProjectDetailClient from "@/components/projects/ProjectDetailClient";
 
 export default async function ProjectDetailPage({
   params,
