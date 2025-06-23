@@ -1,7 +1,8 @@
-"use client"; 
+"use client";
 
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
+import { ThemeToggle } from "./ThemeToggle";
 
 export default function Header() {
   const { data: session, status } = useSession();
@@ -46,6 +47,7 @@ export default function Header() {
             </>
           )}
         </div>
+        <ThemeToggle />
       </nav>
     </header>
   );
