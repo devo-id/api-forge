@@ -20,7 +20,7 @@ export default function ClientLayout({
       >
         <Header />
         <main className="container mx-auto p-4">{children}</main>
-        <Toaster />
+        <Toaster richColors />
       </ThemeProvider>
     </SessionProvider>
   );
